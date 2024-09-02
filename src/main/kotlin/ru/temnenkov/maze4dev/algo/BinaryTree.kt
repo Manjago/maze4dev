@@ -5,7 +5,7 @@ import ru.temnenkov.maze4dev.core.Maze2dArrayImpl
 import ru.temnenkov.this4dev.utils.display
 import java.time.Instant
 
-fun binaryTree(width: Int, height: Int, seed: Long = Instant.now().toEpochMilli()): Maze2d {
+fun binaryTree(width: Int, height: Int, seed: Long = Instant.now().toEpochMilli(), trace: Boolean = false): Maze2d {
 
     val random = kotlin.random.Random(seed)
     val output = Maze2dArrayImpl(width, height)
@@ -28,18 +28,22 @@ fun binaryTree(width: Int, height: Int, seed: Long = Instant.now().toEpochMilli(
 
     for (x in 0 until output.width) {
         for (y in 0 until output.height) {
-            System.err.println("Before $x, $y, \n${output.display()}, \n$output")
+            if (trace) {
+                System.err.println("Before $x, $y, \n${output.display()}, \n$output")
+            }
             val canConnectToNorth = canConnectToNorth(x, y)
             val canConnectToEast = canConnectToEast(x, y)
             when {
-                canConnectToNorth && canConnectToEast -> when (random.nextInt(1)) {
+                canConnectToNorth && canConnectToEast -> when (random.nextInt(2)) {
                     0 -> connectToNorth(x, y)
                     else -> connectToEast(x, y)
                 }
                 canConnectToNorth -> connectToNorth(x, y)
                 canConnectToEast -> connectToEast(x, y)
             }
-            System.err.println("After $x, $y, \n${output.display()}, \n$output")
+            if (trace) {
+                System.err.println("After $x, $y, \n${output.display()}, \n$output")
+            }
         }
     }
 
