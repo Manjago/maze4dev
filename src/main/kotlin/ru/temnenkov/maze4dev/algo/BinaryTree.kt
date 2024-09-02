@@ -2,13 +2,13 @@ package ru.temnenkov.maze4dev.algo
 
 import ru.temnenkov.maze4dev.core.Maze2d
 import ru.temnenkov.maze4dev.core.Maze2dArrayImpl
-import ru.temnenkov.this4dev.utils.display
+import ru.temnenkov.maze4dev.utils.display
 import java.time.Instant
 
 fun binaryTree(width: Int, height: Int, seed: Long = Instant.now().toEpochMilli(), trace: Boolean = false): Maze2d {
 
     val random = kotlin.random.Random(seed)
-    val output = Maze2dArrayImpl(width, height)
+    val output: Maze2d = Maze2dArrayImpl(width, height)
 
     fun canConnectToNorth(x: Int, y: Int): Boolean {
         return y > 0
@@ -47,5 +47,5 @@ fun binaryTree(width: Int, height: Int, seed: Long = Instant.now().toEpochMilli(
         }
     }
 
-    return output;
+    return output
 }

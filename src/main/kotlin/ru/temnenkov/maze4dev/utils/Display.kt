@@ -1,4 +1,4 @@
-package ru.temnenkov.this4dev.utils
+package ru.temnenkov.maze4dev.utils
 
 import ru.temnenkov.maze4dev.core.Maze2d
 

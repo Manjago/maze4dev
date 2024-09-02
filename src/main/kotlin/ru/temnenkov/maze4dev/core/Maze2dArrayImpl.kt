@@ -1,6 +1,5 @@
 package ru.temnenkov.maze4dev.core
 
-import javax.swing.Spring.height
 import kotlin.math.abs
 
 class Maze2dArrayImpl(override val width: Int, override val height: Int) : Maze2d {
