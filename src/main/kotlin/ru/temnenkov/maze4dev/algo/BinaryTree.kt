@@ -3,8 +3,9 @@ package ru.temnenkov.maze4dev.algo
 import ru.temnenkov.maze4dev.core.Maze2d
 import ru.temnenkov.maze4dev.core.Maze2dArrayImpl
 import ru.temnenkov.this4dev.utils.display
+import java.time.Instant
 
-fun binaryTree(width: Int, height: Int, seed: Long): Maze2d {
+fun binaryTree(width: Int, height: Int, seed: Long = Instant.now().toEpochMilli()): Maze2d {
 
     val random = kotlin.random.Random(seed)
     val output = Maze2dArrayImpl(width, height)

@@ -1,5 +1,6 @@
 package ru.temnenkov.maze4dev.core
 
+import javax.swing.Spring.height
 import kotlin.math.abs
 
 class Maze2dArrayImpl(override val width: Int, override val height: Int) : Maze2d {
@@ -21,7 +22,7 @@ class Maze2dArrayImpl(override val width: Int, override val height: Int) : Maze2
         isNotInBounds(xFrom, xTo, yTo, yFrom) -> false
         else -> when {
             isSame(xFrom, xTo, yFrom, yTo) -> isSafeConnectedNorthSouth(xFrom, yFrom, yTo)
-            isSame(yFrom, yTo, xFrom, yTo) -> isSafeConnectedWestEast(yFrom, xTo, yTo)
+            isSame(yFrom, yTo, xFrom, xTo) -> isSafeConnectedWestEast(yFrom, xFrom, xTo)
             else -> false
         }
     }
@@ -78,16 +79,34 @@ class Maze2dArrayImpl(override val width: Int, override val height: Int) : Maze2
         const val EAST = 2
         const val SOUTH = 4
         const val WEST = 8
+
+        fun parse(string: String) : Maze2dArrayImpl {
+            val rows = string.split('\n')
+            val height = rows.size
+            val width = rows[0].length
+            val result = Maze2dArrayImpl(width, height)
+
+            for (y in 0 until height) {
+                val charArray = rows[y].toCharArray()
+                for (x in 0 until width) {
+                    result.cells[y][x] = charArray[x].digitToInt(16)
+                }
+            }
+
+            return result
+        }
     }
 
     override fun toString(): String {
         val sb = StringBuilder()
-        for(y in 0 until  height) {
-            for(x in 0 until width) {
+        for (y in 0 until height) {
+            for (x in 0 until width) {
                 sb.append(cells[y][x].toString(16).uppercase())
             }
             sb.append("\n")
         }
         return sb.toString()
     }
+
+
 }
