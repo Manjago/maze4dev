@@ -79,4 +79,15 @@ class Maze2dArrayImpl(override val width: Int, override val height: Int) : Maze2
         const val SOUTH = 4
         const val WEST = 8
     }
+
+    override fun toString(): String {
+        val sb = StringBuilder()
+        for(y in 0 until  height) {
+            for(x in 0 until width) {
+                sb.append(cells[y][x].toString(16).uppercase())
+            }
+            sb.append("\n")
+        }
+        return sb.toString()
+    }
 }
