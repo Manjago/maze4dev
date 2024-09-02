@@ -11,7 +11,7 @@ class Maze2dArrayImpl(override val width: Int, override val height: Int) : Maze2
         isNotInBounds(xFrom, xTo, yTo, yFrom) -> false
         else -> when {
             isSame(xFrom, xTo, yFrom, yTo) -> safeConnectNorthSouth(xFrom, yFrom, yTo)
-            isSame(yFrom, yTo, xFrom, xTo) -> safeConnectWestEast(yFrom, xTo, yTo)
+            isSame(yFrom, yTo, xFrom, xTo) -> safeConnectWestEast(yFrom, xFrom, xTo)
             else -> false
         }
     }
@@ -53,7 +53,7 @@ class Maze2dArrayImpl(override val width: Int, override val height: Int) : Maze2
         else -> {
             cells[y][xFrom] += EAST
             cells[y][xTo] += WEST
-            true;
+            true
         }
     }
 

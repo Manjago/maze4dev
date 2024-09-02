@@ -27,7 +27,7 @@ fun binaryTree(width: Int, height: Int, seed: Long): Maze2d {
 
     for (x in 0 until output.width) {
         for (y in 0 until output.height) {
-            System.err.println("Before $x, $y, \n${output.display()}}")
+            System.err.println("Before $x, $y, \n${output.display()}")
             val canConnectToNorth = canConnectToNorth(x, y)
             val canConnectToEast = canConnectToEast(x, y)
             when {
