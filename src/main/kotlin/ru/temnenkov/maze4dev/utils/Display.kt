@@ -19,7 +19,7 @@ fun Maze2d.display(): String {
 
     fun printMiddleRow(y: Int) {
         for (x in 0 until this.width) {
-            if (this.isConnected(x - 1, y, x, y)) {
+            if (this.isConnected(x, y, x + 1, y)) {
                 sb.append("   ")
             } else {
                 sb.append("|  ")
