@@ -4,4 +4,5 @@ interface Maze2d {
    val width: Int
    val height: Int
    fun connect(xFrom: Int, yFrom: Int, xTo: Int, yTo: Int): Boolean
+   fun isConnected(xFrom: Int, yFrom: Int, xTo: Int, yTo: Int): Boolean
 }

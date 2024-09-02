@@ -7,36 +7,66 @@ class Maze2dArrayImpl(override val width: Int, override val height: Int) : Maze2
     val cells = Array<IntArray>(height) { IntArray(width) }
 
     override fun connect(xFrom: Int, yFrom: Int, xTo: Int, yTo: Int): Boolean = when {
-        xFrom != xTo && yFrom != yTo -> false
-        !inWidth(xFrom) || !inWidth(yTo) || !inHeight(yTo) || !inHeight(height) -> false
+        isNotNeighbours(xFrom, xTo, yFrom, yTo) -> false
+        isNotInBounds(xFrom, xTo, yTo, yFrom) -> false
         else -> when {
-            xFrom == xTo && abs(yFrom - yTo) == 1 -> safeConnectNorthSouth(xFrom, yFrom, yTo)
-            yFrom == yTo && abs(xFrom - yTo) == 1 -> safeConnectWestEast(yFrom, xTo, yTo)
+            isSame(xFrom, xTo, yFrom, yTo) -> safeConnectNorthSouth(xFrom, yFrom, yTo)
+            isSame(yFrom, yTo, xFrom, yTo) -> safeConnectWestEast(yFrom, xTo, yTo)
             else -> false
         }
     }
 
-    private fun safeConnectNorthSouth(x: Int, yFrom: Int, yTo: Int) : Boolean {
-        if (yFrom > yTo) {
-            return safeConnectNorthSouth(x, yTo, yFrom)
+    override fun isConnected(xFrom: Int, yFrom: Int, xTo: Int, yTo: Int): Boolean = when {
+        isNotNeighbours(xFrom, xTo, yFrom, yTo) -> false
+        isNotInBounds(xFrom, xTo, yTo, yFrom) -> false
+        else -> when {
+            isSame(xFrom, xTo, yFrom, yTo) -> isSafeConnectedNorthSouth(xFrom, yFrom, yTo)
+            isSame(yFrom, yTo, xFrom, yTo) -> isSafeConnectedWestEast(yFrom, xTo, yTo)
+            else -> false
         }
-        if (cells[yFrom][x].and(SOUTH) != 0 || cells[yTo][x].and(NORTH) != 0) {
-            return false
-        }
-        cells[yFrom][x] += SOUTH
-        cells[yTo][x] += NORTH
-        return true
     }
-    private fun safeConnectWestEast(y: Int, xFrom: Int, xTo: Int) : Boolean {
-        if (xFrom > xTo) {
-            return  safeConnectWestEast(y, xTo, xFrom)
+
+    private fun isSame(xFrom: Int, xTo: Int, yFrom: Int, yTo: Int) = xFrom == xTo && abs(yFrom - yTo) == 1
+
+    private fun isNotInBounds(xFrom: Int, xTo: Int, yTo: Int, yFrom: Int) =
+        !inWidth(xFrom) || !inWidth(xTo) || !inHeight(yTo) || !inHeight(yFrom)
+
+    private fun isNotNeighbours(xFrom: Int, xTo: Int, yFrom: Int, yTo: Int) = xFrom != xTo && yFrom != yTo
+
+    private fun safeConnectNorthSouth(x: Int, yFrom: Int, yTo: Int): Boolean = when {
+        yFrom > yTo -> safeConnectNorthSouth(x, yTo, yFrom)
+
+        isSafeConnectedNorthSouth(x, yFrom, yTo) -> false
+
+        else -> {
+            cells[yFrom][x] += SOUTH
+            cells[yTo][x] += NORTH
+            true
         }
-        if (cells[y][xFrom].and(EAST) != 0 || cells[y][xTo].and(WEST) != 0) {
-            return false
+    }
+
+    private fun safeConnectWestEast(y: Int, xFrom: Int, xTo: Int): Boolean = when {
+        xFrom > xTo -> safeConnectWestEast(y, xTo, xFrom)
+
+        !isSafeConnectedWestEast(y, xFrom, xTo) -> false
+
+        else -> {
+            cells[y][xFrom] += EAST
+            cells[y][xTo] += WEST
+            true;
         }
-        cells[y][xFrom] += EAST
-        cells[y][xTo] += WEST
-        return true;
+    }
+
+    private fun isSafeConnectedNorthSouth(x: Int, yFrom: Int, yTo: Int): Boolean = if (yFrom > yTo) {
+        isSafeConnectedNorthSouth(x, yTo, yFrom)
+    } else {
+        cells[yFrom][x].and(SOUTH) != 0 || cells[yTo][x].and(NORTH) != 0
+    }
+
+    private fun isSafeConnectedWestEast(y: Int, xFrom: Int, xTo: Int): Boolean = if (xFrom > xTo) {
+        isSafeConnectedWestEast(y, xTo, xFrom)
+    } else {
+        cells[y][xFrom].and(EAST) != 0 || cells[y][xTo].and(WEST) != 0
     }
 
     private fun inWidth(x: Int) = x in 0 until width
