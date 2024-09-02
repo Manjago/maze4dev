@@ -10,13 +10,9 @@ fun binaryTree(width: Int, height: Int, seed: Long = Instant.now().toEpochMilli(
     val random = kotlin.random.Random(seed)
     val output: Maze2d = Maze2dArrayImpl(width, height)
 
-    fun canConnectToNorth(x: Int, y: Int): Boolean {
-        return y > 0
-    }
+    fun canConnectToNorth(x: Int, y: Int) = y > 0
 
-    fun canConnectToEast(x: Int, y: Int): Boolean {
-        return x < (output.width - 1)
-    }
+    fun canConnectToEast(x: Int, y: Int) = x < (output.width - 1)
 
     fun connectToNorth(x: Int, y: Int) {
         check(output.connect(x, y, x, y - 1))
