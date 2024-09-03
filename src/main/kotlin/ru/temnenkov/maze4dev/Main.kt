@@ -8,7 +8,7 @@ import java.time.Instant
 fun main() {
     val seed = Instant.now().toEpochMilli()
     println("seed = $seed")
-    val binaryTree = binaryTree(6, 4, seed)
+    val binaryTree = binaryTree(8, 8, seed)
     println(binaryTree.display())
 
 
